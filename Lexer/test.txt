@@ -1,0 +1,14 @@
+int main()
+{
+	int a, B = 0;
+	int c = a + B;
+	if(a<= 3.14 )
+	{
+		c++;
+		c =a/B;
+	}
+	printf("hello,Lexer");
+
+	@fxml
+	B = 3o;
+}
