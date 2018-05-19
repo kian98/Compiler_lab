@@ -59,6 +59,7 @@ public class Controller {
             String codeRead = fileReader.readin(loadFile);
             code.setText(codeRead);  //读入代码并在TextArea中显示
         }
+        table.getItems().clear();   //读入新文件时清空TableView内容
     }
 
     @FXML
