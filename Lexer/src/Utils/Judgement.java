@@ -11,7 +11,7 @@ public class Judgement {
         keywords = new String[]{"do", "end", "for", "if", "printf", "scanf", "then", "while"};
         relationOperators = new String[]{"<", "<=", "=", ">", ">=", "<>"};
         arithmeticOperators = new String[]{"+", "-", "*", "/", "++", "--"};
-        separators = new String[]{",", ";", "(", ")", "{", "}", "\""};
+        separators = new String[]{",", ";", "(", ")", "{", "}", "\"","#"};
         type = new String[]{"关键字", "分界符", "算术运算符", "关系运算符", "常数", "标识符", "ERROR"};
     }
 
