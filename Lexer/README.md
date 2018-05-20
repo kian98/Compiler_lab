@@ -1,5 +1,9 @@
 # 词法分析器 
   
+v2.0  
+![Alt text](https://github.com/kian98/Compiler/blob/master/Lexer/GUI_v2.0.png)
+  
+v1.0  
 ![Alt text](https://github.com/kian98/Compiler/blob/master/Lexer/GUI.png)
   
 ### 以下是实现词法分析设计的主要工作：  
@@ -26,3 +30,7 @@
   
   
   Java还在学习中,因为是第一次写带有图形界面的程序，代码逻辑不太清楚,继续努力Orz.
+  
+* * * 
+2018/5/20
+加入新功能,可以手动添加关键词、分界符、关系运算符与算数运算符.
