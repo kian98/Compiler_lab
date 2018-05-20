@@ -8,9 +8,9 @@ import java.util.regex.Pattern;
 
 public class Identifier {
 
-    public List<LexResult> identify(List<List<String>> codeDivided) {
+    public List<LexResult> identify(List<List<String>> codeDivided,Judgement judge) {
         List<LexResult> results = new ArrayList<>();
-        Judgement judge = new Judgement();
+//        Judgement judge = new Judgement();
         int row, line;
 
         for (row = 1; row <= codeDivided.size(); row++) {

@@ -18,7 +18,8 @@ public class FileReader {
 
         //读取文件、设置行号格式，并按行保存到List中
         while ((strTemp = in.readLine()) != null) {
-            sb.append(curLine < 10 ? curLine + "  |  " : curLine + " |  ");  //对齐行号
+            //sb.append(curLine < 10 ? curLine + "  |  " : curLine + " |  ");  //对齐行号
+            sb.append(curLine+"\t| ");  //对齐行号
             sb.append(strTemp + "\n");
             allCode.add(strTemp);
             curLine++;

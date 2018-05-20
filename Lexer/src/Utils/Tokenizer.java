@@ -5,10 +5,10 @@ import java.util.List;
 
 public class Tokenizer {
 
-    public List<List<String>> tokenize(List<String> rawCode) {
+    public List<List<String>> tokenize(List<String> rawCode,Judgement judgement) {
         List<List<String>> wordList = new ArrayList<>();  //因为代码长度不定，每行代码保存为一个List<String>，
         // 所有List再保存到List中
-        Judgement judgement = new Judgement();
+        //Judgement judgement = new Judgement();
         StringBuilder sb = new StringBuilder();
 
         for (String segment : rawCode) {
