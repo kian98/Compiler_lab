@@ -37,7 +37,6 @@ public class Controller {
         FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("TXT files (*.txt)", "*.txt");
         fileChooser.getExtensionFilters().add(extFilter);
 
-        FileSystemView fsv = FileSystemView.getFileSystemView();
         fileChooser.setInitialDirectory(
                 //new File(String.valueOf(fsv.getHomeDirectory())));  //设置文件选择窗口默认路径为桌面
                 new File(System.getProperty("user.dir")));           //设置默认路径为当前工程文件所在目录
