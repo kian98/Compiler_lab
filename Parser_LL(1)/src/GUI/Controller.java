@@ -12,6 +12,7 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import utils.EliminateLR;
 import utils.GrammarImporter;
+import utils.Separator;
 
 import javax.swing.filechooser.FileSystemView;
 import java.io.File;
@@ -63,5 +64,7 @@ public class Controller {
             String singleGrammar = grammars.vt.get(i) + "->" + temp;
             eliminatedGrammar.getItems().add(singleGrammar);
         }
+        Separator separator = new Separator();
+        separator.separate(grammars.vt,grammars.vt_infer);
     }
 }
