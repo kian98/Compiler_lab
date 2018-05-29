@@ -6,16 +6,20 @@ import java.util.stream.Collectors;
 
 public class Separator {
 
-    public void separate(List<String> vt, List<List<String>> vtInfer) {
-        List<String> allVt = new ArrayList<>();
-        List<String> allVn = new ArrayList<>();
-        allVt.addAll(vt);
+    public List<String> allVn;
+    public List<String> allVt;
+    public List<List<String[]>> vnInfer_separated;
 
-        List<List<String[]>> vtInfer_separated = new ArrayList<>();
-        for (List<String> everyVtInfer : vtInfer) {
-            List<String[]> everyVtInfer_separated = new ArrayList<>();
+    public void separate(List<String> vn, List<List<String>> vnInfer) {
+        allVn = new ArrayList<>();
+        allVt = new ArrayList<>();
+        allVn.addAll(vn);
+        vnInfer_separated = new ArrayList<>();
 
-            for (String singleInfer : everyVtInfer) {
+        for (List<String> everyVnInfer : vnInfer) {
+            List<String[]> everyVnInfer_separated = new ArrayList<>();
+
+            for (String singleInfer : everyVnInfer) {
                 char[] chars = singleInfer.toCharArray();
                 List<String> singleInfer_separated = new ArrayList<>();
                 int length = chars.length;
@@ -26,20 +30,20 @@ public class Separator {
                         temp = chars[index] + "" + chars[index + 1];
                         singleInfer_separated.add(temp);
                         index++;
-                    }else
-                        singleInfer_separated.add(temp=(chars[index]+""));
+                    } else
+                        singleInfer_separated.add(temp = (chars[index] + ""));
 
-                    if(!allVt.contains(temp))
-                        allVn.add(temp);
+                    if (!allVn.contains(temp))
+                        allVt.add(temp);
                 }
                 String[] trans = new String[singleInfer_separated.size()];
-                everyVtInfer_separated.add(singleInfer_separated.toArray(trans));
+                everyVnInfer_separated.add(singleInfer_separated.toArray(trans));
             }
-            vtInfer_separated.add(everyVtInfer_separated);
+            vnInfer_separated.add(everyVnInfer_separated);
         }
 
+        allVt = allVt.stream().distinct().collect(Collectors.toList());     //去重
         allVn = allVn.stream().distinct().collect(Collectors.toList());
-        allVt = allVt.stream().distinct().collect(Collectors.toList());
     }
 
 }
