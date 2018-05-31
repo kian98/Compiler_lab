@@ -10,6 +10,8 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import utils.*;
@@ -35,7 +37,7 @@ public class Controller {
     public ListView<String> eliminatedGrammar;
     public ListView<String> FirstSet;
     public ListView<String> FollowSet;
-    public ListView<String> AnalysisList;
+    public HBox AnalysisList;
     public TableView<Parser> parseResultTableView;
     public TableColumn<Parser, Integer> step;
     public TableColumn<Parser, String> stack;
@@ -61,15 +63,24 @@ public class Controller {
         File loadFile = fileChooser.showOpenDialog(stage);
 
         if (loadFile != null) {  //若没有打开文件，则不继续
+
+            grammars = null;
+            separator = null;
+            firstSet = null;
+            followSet = null;
+            predictor = null;
+
             grammar.getItems().clear();
             List<String> rawGrammarList = importer.importGrammar(loadFile);
             for (String singleGrammar : rawGrammarList)
                 grammar.getItems().add(singleGrammar);  //读入文法并在ListView中显示
+
+            //每次打开新文件后清除已存在的所有内容(除了输入表达式)
             parseResultTableView.getItems().clear();
             eliminatedGrammar.getItems().clear();
             FirstSet.getItems().clear();
             FollowSet.getItems().clear();
-            AnalysisList.getItems().clear();
+            AnalysisList.getChildren().clear();
             parseResultTableView.getItems().clear();
         }
     }
@@ -78,17 +89,19 @@ public class Controller {
     private void eliminate(ActionEvent event) {
         try {
             eliminatedGrammar.getItems().clear();
-            grammars = new Grammars(importer.getRawGrammar());
+            grammars = new Grammars(importer.getRawGrammar());      //对获取的文法进行分割,grammars对象包含非终结符及其对应导出式
             EliminateLR eliminateLR = new EliminateLR();
-            String leftR = eliminateLR.eliminate(grammars);
+            String leftR = eliminateLR.eliminate(grammars);         //leftR保存消除左递归结果
+
             eliminatedGrammar.getItems().add(leftR);
             for (int i = 0; i < grammars.vn.size(); i++) {
                 String temp = StringUtils.join(Arrays.asList(grammars.vn_infer.get(i).toArray()), "|");
                 String singleGrammar = grammars.vn.get(i) + " ->" + temp;
                 eliminatedGrammar.getItems().add(singleGrammar);
             }
+
             separator = new Separator();
-            separator.separate(grammars.vn, grammars.vn_infer);
+            separator.separate(grammars.vn, grammars.vn_infer);     //按照消除左递归的结果,对所有单个标识符进行分割
         } catch (NullPointerException nullptr) {
             Alert warning = new Alert(Alert.AlertType.WARNING, "未进行必要操作");
             warning.showAndWait();
@@ -136,7 +149,7 @@ public class Controller {
     @FXML
     private void createLL1(ActionEvent event) {
         try {
-            AnalysisList.getItems().clear();
+            AnalysisList.getChildren().clear();
 
             List<String> allVtLocal = new ArrayList<>(separator.allVt);
             allVtLocal.remove("ε");
@@ -146,25 +159,15 @@ public class Controller {
             List<List<String>> analysisResult = predictor.predictTable(allVtLocal, separator.allVn,
                     separator.vnInfer_separated, firstSet.firstSet, followSet.followSet);
 
-
-            String[] blanks = {"", " ", "  ", "   ", "    ", "     ", "      ", "       ", "        ", "         ",
-                    "           ", "            "};
-            List<List<String>> resultFormat = new ArrayList<>();
-            for (List<String> stringList : analysisResult) {
-                List<String> listFormat = new ArrayList<>();
-                for (String str : stringList) {
-                    StringBuilder strFormat = new StringBuilder(12);
-                    strFormat.append(str).append(blanks[12 - str.length()]);
-                    listFormat.add(strFormat.toString());
-                    strFormat.delete(0, 12);
-                }
-                resultFormat.add(listFormat);
+//          设置hbox布局,分别添加ListView以实现对齐
+            for (int colCount = 0; colCount < analysisResult.get(0).size(); colCount++) {
+                ListView<String> list = new ListView<>();
+                list.setStyle("-fx-border-width: 0px");
+                AnalysisList.getChildren().add(list);
+                AnalysisList.setHgrow(list, Priority.ALWAYS);
+                for (List<String> rowList : analysisResult) list.getItems().add(rowList.get(colCount));
             }
 
-            for (List<String> list : resultFormat) {
-                String temp = StringUtils.join(Arrays.asList(list.toArray()), "");
-                AnalysisList.getItems().add(temp);
-            }
         } catch (NullPointerException nullptr) {
             Alert warning = new Alert(Alert.AlertType.WARNING, "未进行必要操作");
             warning.showAndWait();
