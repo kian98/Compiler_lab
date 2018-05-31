@@ -1,24 +1,22 @@
 package GUI;
 
 import Storage.Grammars;
-import Storage.ParseResult;
-import Storage.Predictor;
+import Storage.Parser;
 import com.sun.deploy.util.StringUtils;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.GridPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import utils.*;
+import utils.Separator;
 
-import javax.swing.*;
 import java.io.File;
 import java.io.IOException;
-import java.time.chrono.IsoChronology;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -30,14 +28,24 @@ public class Controller {
     public Separator separator;
     public FirstSet firstSet;
     public FollowSet followSet;
+    public Predictor predictor;
 
     public GridPane gp;
     public ListView<String> grammar;
     public ListView<String> eliminatedGrammar;
     public ListView<String> FirstSet;
     public ListView<String> FollowSet;
-    public TableView<ParseResult> parseResultTableView;
-    public TableView<Predictor> predictTable;
+    public ListView<String> AnalysisList;
+    public TableView<Parser> parseResultTableView;
+    public TableColumn<Parser, Integer> step;
+    public TableColumn<Parser, String> stack;
+    public TableColumn<Parser, String> remain;
+    public TableColumn<Parser, String> formula;
+    public TableColumn<Parser, String> movement;
+    public TextField text;
+
+    private ObservableList<Parser> data;
+
 
     @FXML
     private void loadGrammar(ActionEvent event) throws IOException {
@@ -61,6 +69,8 @@ public class Controller {
             eliminatedGrammar.getItems().clear();
             FirstSet.getItems().clear();
             FollowSet.getItems().clear();
+            AnalysisList.getItems().clear();
+            parseResultTableView.getItems().clear();
         }
     }
 
@@ -126,23 +136,66 @@ public class Controller {
     @FXML
     private void createLL1(ActionEvent event) {
         try {
+            AnalysisList.getItems().clear();
+
             List<String> allVtLocal = new ArrayList<>(separator.allVt);
             allVtLocal.remove("ε");
-            double width = predictTable.getWidth() / (allVtLocal.size() + 1);
-            TableColumn vnCol = new TableColumn("");
-            vnCol.setPrefWidth(width);
-            predictTable.getColumns().add(vnCol);
-            for (String vt : allVtLocal) {
-                TableColumn vtCol = new TableColumn(vt);
-                vtCol.setPrefWidth(width);
-                predictTable.getColumns().add(vtCol);
+            allVtLocal.add("#");
+
+            predictor = new Predictor();
+            List<List<String>> analysisResult = predictor.predictTable(allVtLocal, separator.allVn,
+                    separator.vnInfer_separated, firstSet.firstSet, followSet.followSet);
+
+
+            String[] blanks = {"", " ", "  ", "   ", "    ", "     ", "      ", "       ", "        ", "         ",
+                    "           ", "            "};
+            List<List<String>> resultFormat = new ArrayList<>();
+            for (List<String> stringList : analysisResult) {
+                List<String> listFormat = new ArrayList<>();
+                for (String str : stringList) {
+                    StringBuilder strFormat = new StringBuilder(12);
+                    strFormat.append(str).append(blanks[12 - str.length()]);
+                    listFormat.add(strFormat.toString());
+                    strFormat.delete(0, 12);
+                }
+                resultFormat.add(listFormat);
             }
 
-            Predictor predictor = new Predictor();
-            List<String> predictResult = predictor.predictTable(allVtLocal,separator.allVn,
-                    separator.vnInfer_separated,firstSet.firstSet,followSet.followSet);
-            
+            for (List<String> list : resultFormat) {
+                String temp = StringUtils.join(Arrays.asList(list.toArray()), "");
+                AnalysisList.getItems().add(temp);
+            }
+        } catch (NullPointerException nullptr) {
+            Alert warning = new Alert(Alert.AlertType.WARNING, "未进行必要操作");
+            warning.showAndWait();
+        }
+    }
 
+    @FXML
+    private void parse(ActionEvent event) {
+        try {
+            parseResultTableView.getItems().clear();
+            Parse parser = new Parse();
+            if (text.getText().equals("")) {
+                Alert error = new Alert(Alert.AlertType.WARNING, "输入为空");
+                error.showAndWait();
+                return;
+            }
+            String analyzeText = text.getText() + "#";
+
+            data = FXCollections.observableArrayList(parser.parse(analyzeText, predictor.analysisResult,
+                    separator.allVn, separator.allVt, separator.vnInfer_separated));
+            parseResultTableView.setItems(data);
+
+            step.setCellValueFactory(new PropertyValueFactory<>("step"));
+            stack.setCellValueFactory(new PropertyValueFactory<>("stack"));
+            remain.setCellValueFactory(new PropertyValueFactory<>("remain"));
+            formula.setCellValueFactory(new PropertyValueFactory<>("formula"));
+            movement.setCellValueFactory(new PropertyValueFactory<>("movement"));
+            if (!parser.isSuccess()) {
+                Alert error = new Alert(Alert.AlertType.ERROR, "语句错误");
+                error.showAndWait();
+            }
         } catch (NullPointerException nullptr) {
             Alert warning = new Alert(Alert.AlertType.WARNING, "未进行必要操作");
             warning.showAndWait();

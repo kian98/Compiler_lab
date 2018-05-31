@@ -6,43 +6,45 @@
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<GridPane fx:id="gp" minHeight="620.0" minWidth="1220.0" prefHeight="666.0" prefWidth="993.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.Controller">
+<GridPane fx:id="gp" minHeight="620.0" minWidth="1077.0" prefHeight="727.0" prefWidth="1077.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.Controller">
     <columnConstraints>
         <ColumnConstraints hgrow="SOMETIMES" maxWidth="399.0" minWidth="240.0" prefWidth="240.0" />
         <ColumnConstraints hgrow="SOMETIMES" maxWidth="529.0" minWidth="240.0" prefWidth="256.0" />
-        <ColumnConstraints hgrow="SOMETIMES" maxWidth="580.0" minWidth="240.0" prefWidth="362.0" />
-        <ColumnConstraints hgrow="SOMETIMES" maxWidth="595.0" minWidth="358.0" prefWidth="378.0" />
+        <ColumnConstraints hgrow="SOMETIMES" maxWidth="580.0" minWidth="77.0" prefWidth="124.0" />
+        <ColumnConstraints hgrow="SOMETIMES" maxWidth="595.0" minWidth="299.0" prefWidth="458.0" />
     </columnConstraints>
     <rowConstraints>
         <RowConstraints maxHeight="80.0" minHeight="30.0" prefHeight="40.0" vgrow="SOMETIMES" />
-        <RowConstraints maxHeight="1.7976931348623157E308" minHeight="280.0" prefHeight="281.0" valignment="CENTER" vgrow="ALWAYS" />
+        <RowConstraints maxHeight="1.7976931348623157E308" minHeight="247.0" prefHeight="255.0" valignment="CENTER" vgrow="ALWAYS" />
+        <RowConstraints minHeight="30.0" prefHeight="40.0" valignment="CENTER" />
         <RowConstraints maxHeight="80.0" minHeight="30.0" prefHeight="40.0" valignment="CENTER" vgrow="SOMETIMES" />
-        <RowConstraints maxHeight="1.7976931348623157E308" minHeight="280.0" prefHeight="283.0" valignment="CENTER" vgrow="ALWAYS" />
+      <RowConstraints maxHeight="1.7976931348623157E308" minHeight="141.0" prefHeight="340.0" valignment="CENTER" vgrow="ALWAYS" />
     </rowConstraints>
     <children>
-        <ListView fx:id="grammar" prefHeight="25.0" prefWidth="75.0" GridPane.rowIndex="1">
+        <ListView fx:id="grammar" focusTraversable="false" prefHeight="25.0" prefWidth="75.0" GridPane.rowIndex="1" GridPane.rowSpan="2">
             <GridPane.margin>
-                <Insets bottom="2.0" left="2.0" right="2.0" />
+                <Insets bottom="2.0" left="2.0" right="4.0" />
             </GridPane.margin>
         </ListView>
-        <ListView fx:id="eliminatedGrammar" prefHeight="25.0" prefWidth="75.0" GridPane.rowIndex="3">
+        <ListView fx:id="eliminatedGrammar" focusTraversable="false" prefHeight="25.0" prefWidth="75.0" GridPane.rowIndex="4">
             <GridPane.margin>
-                <Insets bottom="2.0" left="2.0" right="2.0" />
+                <Insets bottom="2.0" left="2.0" right="4.0" />
             </GridPane.margin>
         </ListView>
-        <ListView fx:id="FirstSet" prefHeight="25.0" prefWidth="75.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+        <ListView fx:id="FirstSet" focusTraversable="false" prefHeight="25.0" prefWidth="75.0" GridPane.columnIndex="1" GridPane.rowIndex="1" GridPane.rowSpan="2">
             <GridPane.margin>
-                <Insets bottom="2.0" left="2.0" right="2.0" />
+                <Insets bottom="2.0" left="2.0" right="4.0" />
             </GridPane.margin>
         </ListView>
-        <ListView fx:id="FollowSet" prefHeight="25.0" prefWidth="75.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
+        <ListView fx:id="FollowSet" focusTraversable="false" prefHeight="25.0" prefWidth="75.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
             <GridPane.margin>
-                <Insets bottom="2.0" left="2.0" right="2.0" />
+                <Insets bottom="2.0" left="2.0" right="4.0" />
             </GridPane.margin>
         </ListView>
         <Button fx:id="loadGrammar" mnemonicParsing="false" onAction="#loadGrammar" prefHeight="25.0" prefWidth="75.0" text="打开" textAlignment="CENTER" GridPane.halignment="RIGHT" GridPane.valignment="CENTER">
@@ -51,22 +53,22 @@
             </GridPane.margin>
         </Button>
         <Label prefHeight="25.0" prefWidth="75.0" text="文法：" GridPane.halignment="LEFT">
-            <padding>
-                <Insets left="5.0" />
-            </padding>
             <font>
                 <Font name="Microsoft YaHei Mono" size="18.0" />
             </font>
+         <GridPane.margin>
+            <Insets left="10.0" />
+         </GridPane.margin>
         </Label>
-        <Label prefHeight="25.0" prefWidth="125.0" text="消除左递归：" GridPane.halignment="LEFT" GridPane.rowIndex="2">
+        <Label prefHeight="25.0" prefWidth="125.0" text="消除左递归：" GridPane.halignment="LEFT" GridPane.rowIndex="3">
             <GridPane.margin>
-                <Insets left="5.0" />
+                <Insets left="10.0" />
             </GridPane.margin>
             <font>
                 <Font size="18.0" />
             </font>
         </Label>
-        <Button mnemonicParsing="false" onAction="#eliminate" prefHeight="25.0" prefWidth="75.0" text="生成" textAlignment="CENTER" GridPane.halignment="RIGHT" GridPane.rowIndex="2">
+        <Button mnemonicParsing="false" onAction="#eliminate" prefHeight="25.0" prefWidth="75.0" text="生成" textAlignment="CENTER" GridPane.halignment="RIGHT" GridPane.rowIndex="3">
             <GridPane.margin>
                 <Insets right="5.0" />
             </GridPane.margin>
@@ -79,14 +81,14 @@
                 <Insets right="5.0" />
             </GridPane.margin>
         </Button>
-        <Button mnemonicParsing="false" onAction="#getFollow" prefHeight="25.0" prefWidth="75.0" text="生成" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="2">
+        <Button mnemonicParsing="false" onAction="#getFollow" prefHeight="25.0" prefWidth="75.0" text="生成" textAlignment="CENTER" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="3">
             <GridPane.margin>
                 <Insets right="5.0" />
             </GridPane.margin>
         </Button>
-        <Label prefHeight="25.0" prefWidth="125.0" text="候选首符集：" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="2">
+        <Label prefHeight="25.0" prefWidth="125.0" text="候选首符集：" GridPane.columnIndex="1" GridPane.halignment="LEFT" GridPane.rowIndex="3">
             <GridPane.margin>
-                <Insets left="5.0" />
+                <Insets left="10.0" />
             </GridPane.margin>
             <font>
                 <Font name="Microsoft YaHei Mono" size="18.0" />
@@ -94,35 +96,27 @@
         </Label>
         <Label prefHeight="25.0" prefWidth="125.0" text="终结首符集：" GridPane.columnIndex="1">
             <GridPane.margin>
-                <Insets left="5.0" />
+                <Insets left="10.0" />
             </GridPane.margin>
             <font>
                 <Font name="Microsoft YaHei Mono" size="18.0" />
             </font>
         </Label>
-        <TableView fx:id="parseResultTableView" prefHeight="25.0" prefWidth="75.0" GridPane.columnIndex="2" GridPane.columnSpan="2" GridPane.rowIndex="3">
+        <TableView fx:id="parseResultTableView" focusTraversable="false" prefHeight="25.0" prefWidth="75.0" GridPane.columnIndex="2" GridPane.columnSpan="2" GridPane.rowIndex="4">
             <columns>
-                <TableColumn minWidth="36.0" prefWidth="62.0" resizable="false" text="步骤" />
-                <TableColumn minWidth="125.0" prefWidth="171.0" text="分析栈" />
-                <TableColumn minWidth="125.0" prefWidth="174.0" text="剩余输入串" />
-                <TableColumn minWidth="100.0" prefWidth="187.0" text="所用产生式" />
-                <TableColumn minWidth="118.0" prefWidth="131.0" text="动作" />
+                <TableColumn fx:id="step" minWidth="36.0" prefWidth="47.0" resizable="false" text="步骤" />
+                <TableColumn fx:id="stack" minWidth="125.0" prefWidth="150.0" text="分析栈" />
+                <TableColumn fx:id="remain" minWidth="125.0" prefWidth="150.0" text="剩余输入串" />
+                <TableColumn fx:id="formula" minWidth="79.0" prefWidth="130.0" text="所用产生式" />
+                <TableColumn fx:id="movement" minWidth="118.0" text="动作" />
             </columns>
             <GridPane.margin>
                 <Insets bottom="2.0" left="2.0" right="2.0" />
             </GridPane.margin>
         </TableView>
-        <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="75.0" text="分析" textAlignment="CENTER" GridPane.columnIndex="3" GridPane.halignment="RIGHT" GridPane.rowIndex="2">
+        <Label prefHeight="25.0" prefWidth="125.0" text="语法分析：" GridPane.columnIndex="2" GridPane.halignment="LEFT" GridPane.rowIndex="3">
             <GridPane.margin>
-                <Insets right="5.0" />
-            </GridPane.margin>
-            <font>
-                <Font name="Microsoft YaHei Mono" size="15.0" />
-            </font>
-        </Button>
-        <Label prefHeight="25.0" prefWidth="125.0" text="语法分析：" GridPane.columnIndex="2" GridPane.halignment="LEFT" GridPane.rowIndex="2">
-            <GridPane.margin>
-                <Insets left="5.0" />
+                <Insets left="10.0" />
             </GridPane.margin>
             <font>
                 <Font size="18.0" />
@@ -138,16 +132,37 @@
       </Button>
       <Label prefHeight="25.0" prefWidth="125.0" text="LL(1)分析表：" GridPane.columnIndex="2" GridPane.halignment="LEFT">
          <GridPane.margin>
-            <Insets left="5.0" />
+            <Insets left="10.0" />
          </GridPane.margin>
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <TableView fx:id="predictTable" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.columnSpan="2" GridPane.rowIndex="1">
+      <ListView fx:id="AnalysisList" focusTraversable="false" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.columnSpan="2" GridPane.rowIndex="1">
          <GridPane.margin>
-            <Insets bottom="2.0" left="2.0" right="2.0" />
+            <Insets left="2.0" right="2.0" />
          </GridPane.margin>
-      </TableView>
+      </ListView>
+      <TextField fx:id="text" alignment="CENTER" prefHeight="30.0" prefWidth="357.0" promptText="在此输入分析串" GridPane.columnIndex="3" GridPane.halignment="LEFT" GridPane.rowIndex="2" GridPane.valignment="CENTER">
+         <GridPane.margin>
+            <Insets right="5.0" />
+         </GridPane.margin>
+      </TextField>
+        <Button mnemonicParsing="false" onAction="#parse" prefHeight="25.0" prefWidth="75.0" text="分析" textAlignment="CENTER" GridPane.columnIndex="3" GridPane.halignment="RIGHT" GridPane.rowIndex="3">
+            <GridPane.margin>
+                <Insets right="5.0" />
+            </GridPane.margin>
+            <font>
+                <Font name="Microsoft YaHei Mono" size="15.0" />
+            </font>
+        </Button>
+      <Label text="输入串：" GridPane.columnIndex="2" GridPane.rowIndex="2">
+         <GridPane.margin>
+            <Insets left="10.0" />
+         </GridPane.margin>
+         <font>
+            <Font name="Microsoft YaHei" size="18.0" />
+         </font>
+      </Label>
     </children>
 </GridPane>
