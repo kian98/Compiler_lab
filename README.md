@@ -3,5 +3,5 @@
 
 >## Contents
 >* Lexer with GUI (Java)   
->* Parser (Java)
+>* Parser-LL(1) (Java)
 >* ···
