@@ -7,39 +7,36 @@
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
-<?import javafx.scene.layout.TilePane?>
 <?import javafx.scene.layout.VBox?>
 
 <GridPane fx:id="gp" alignment="center" hgap="10" prefHeight="851.0" prefWidth="1251.0" vgap="10" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.Controller">
     <columnConstraints>
-        <ColumnConstraints hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" minWidth="190.0" prefWidth="260.0" />
-        <ColumnConstraints hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" minWidth="360.0" prefWidth="505.0" />
+        <ColumnConstraints hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" minWidth="190.0" prefWidth="225.0" />
+        <ColumnConstraints hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" minWidth="360.0" prefWidth="536.0" />
         <ColumnConstraints hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" minWidth="300.0" prefWidth="471.0" />
     </columnConstraints>
     <rowConstraints>
         <RowConstraints maxHeight="70.0" minHeight="35.0" prefHeight="38.0" vgrow="NEVER" />
-        <RowConstraints maxHeight="414.0" minHeight="10.0" prefHeight="205.0" vgrow="SOMETIMES" />
-        <RowConstraints maxHeight="60.0" minHeight="25.0" prefHeight="28.0" vgrow="NEVER" />
-        <RowConstraints maxHeight="580.0" minHeight="10.0" prefHeight="550.0" vgrow="SOMETIMES" />
+        <RowConstraints maxHeight="414.0" minHeight="10.0" prefHeight="235.0" vgrow="SOMETIMES" />
+        <RowConstraints maxHeight="60.0" minHeight="0.0" prefHeight="35.0" vgrow="NEVER" />
+        <RowConstraints maxHeight="598.0" minHeight="10.0" prefHeight="517.0" vgrow="SOMETIMES" />
     </rowConstraints>
     <children>
-        <Label text="文法：" GridPane.columnIndex="1" GridPane.valignment="CENTER">
+        <Label text="文法：" GridPane.valignment="CENTER">
             <GridPane.margin>
                 <Insets left="8.0" />
             </GridPane.margin>
         </Label>
-        <Button mnemonicParsing="false" onAction="#loadGrammar" prefWidth="80.0" text="打开" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.valignment="CENTER">
+        <Button mnemonicParsing="false" onAction="#loadGrammar" prefWidth="80.0" text="打开" GridPane.halignment="RIGHT" GridPane.valignment="CENTER">
             <GridPane.margin>
                 <Insets right="8.0" top="5.0" />
             </GridPane.margin>
         </Button>
-        <Button mnemonicParsing="false" onAction="#getLrAnalysisTable" prefWidth="80.0" text="生成" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.rowIndex="2" GridPane.valignment="CENTER">
+        <Button mnemonicParsing="false" onAction="#getParseTable" prefWidth="80.0" text="生成" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.valignment="CENTER">
             <GridPane.margin>
                 <Insets right="8.0" />
             </GridPane.margin>
@@ -71,15 +68,15 @@
                 <Insets bottom="5.0" right="5.0" />
             </GridPane.margin>
         </TableView>
-        <ListView fx:id="rawGrammar" prefHeight="242.0" prefWidth="498.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+        <ListView fx:id="rawGrammar" prefHeight="227.0" prefWidth="219.0" GridPane.rowIndex="1">
             <GridPane.margin>
-                <Insets />
+                <Insets left="5.0" />
             </GridPane.margin>
          <opaqueInsets>
             <Insets />
          </opaqueInsets>
         </ListView>
-        <ListView fx:id="extendedGrammar" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="3">
+        <ListView fx:id="extendedGrammarList" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="3">
             <GridPane.margin>
                 <Insets bottom="5.0" left="5.0" />
             </GridPane.margin>
@@ -87,26 +84,20 @@
             <Insets bottom="5.0" left="5.0" />
          </opaqueInsets>
         </ListView>
-        <ImageView fitHeight="184.0" fitWidth="181.0" pickOnBounds="true" preserveRatio="true" GridPane.halignment="CENTER" GridPane.rowSpan="2" GridPane.valignment="CENTER">
-            <image>
-                <Image url="@shrug.png" />
-            </image>
-        </ImageView>
-      <Label text="规范LR分析表：" GridPane.columnIndex="1" GridPane.rowIndex="2">
+      <Label text="规范LR分析表：" GridPane.columnIndex="1">
          <GridPane.margin>
             <Insets left="8.0" />
          </GridPane.margin>
       </Label>
-      <TextField alignment="CENTER" maxWidth="-Infinity" prefHeight="30.0" prefWidth="256.0" promptText="输入待分析符号串" GridPane.columnIndex="2" GridPane.halignment="CENTER">
+      <TextField alignment="CENTER" maxWidth="-Infinity" prefHeight="30.0" prefWidth="274.0" promptText="输入待分析符号串" GridPane.columnIndex="2" GridPane.halignment="CENTER">
          <GridPane.margin>
             <Insets top="5.0" />
          </GridPane.margin>
       </TextField>
-      <TilePane prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="1" />
-      <VBox prefHeight="200.0" prefWidth="100.0" style="-fx-border-width: 0; -fx-border-color: #C8C8C8C8;" GridPane.columnIndex="1" GridPane.rowIndex="3">
+      <VBox fx:id="WholeTable" prefHeight="200.0" prefWidth="100.0" style="-fx-border-width: 0; -fx-border-color: #C8C8C8C8;" GridPane.columnIndex="1" GridPane.rowIndex="1" GridPane.rowSpan="3">
          <children>
-            <HBox fx:id="TableTitile" prefHeight="100.0" prefWidth="503.0" style="-fx-background-color: #ffffff; -fx-border-width: 1; -fx-border-color: #C8C8C8;" VBox.vgrow="NEVER" />
-            <HBox fx:id="TableContent" prefHeight="576.0" prefWidth="503.0" style="-fx-background-color: #FFFFFF; -fx-border-color: #c8c8c8; -fx-border-width: 1;" VBox.vgrow="ALWAYS" />
+            <HBox fx:id="TableTitle" prefHeight="39.0" prefWidth="503.0" style="-fx-background-color: #ffffff; -fx-border-width: 1; -fx-border-color: #C8C8C8;" VBox.vgrow="NEVER" />
+            <HBox fx:id="TableContent" prefHeight="750.0" prefWidth="503.0" style="-fx-background-color: #FFFFFF; -fx-border-color: #c8c8c8; -fx-border-width: 1;" VBox.vgrow="ALWAYS" />
          </children>
          <opaqueInsets>
             <Insets bottom="5.0" />

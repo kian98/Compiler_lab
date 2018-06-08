@@ -1,34 +1,32 @@
 package Utils;
 
-import Models.Go;
-import Models.Grammars;
-import Models.Item;
+import Storage.Go;
+import Storage.Item;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class Closure {
-    List<List<Item>> closure = new ArrayList<>();
-    List<Go> go = new ArrayList<>();
+    public List<List<Item>> closureList = new ArrayList<>();
+    public List<Go> go = new ArrayList<>();
+    private Separator separator;
     private List<List<String>> firstSet;
     private Grammars grammars;
-    private Separator separator = new Separator();
 
-    public void setClosure(Grammars grammars) {
-        this.grammars = grammars;
-        separator.separate(grammars.vn, grammars.vn_infer);
+    public void setClosure(Grammars grammarsIn,Separator separatorIn) {
+        this.grammars = grammarsIn;
+        this.separator = separatorIn;
         firstSet = FirstSet.getFirstSet(separator.allVn, separator.vnInfer_separated);
         List<String> symbolOfGrammar = new ArrayList<>();
         symbolOfGrammar.addAll(separator.allVn);
         symbolOfGrammar.addAll(separator.allVt);
 
         //初始化项目集族
-        closure.add(new ArrayList<>());
-        closure.get(0).add(new Item(grammars.vn.get(0), grammars.vn_infer.get(0).get(0), 0, "#"));
-        createItemSet(closure.get(0));
-        for (int i = 0; i < closure.size(); i++) {
-            List<Item> itemList = closure.get(i);
+        closureList.add(new ArrayList<>());
+        closureList.get(0).add(new Item(grammars.vn.get(0), grammars.vn_infer.get(0).get(0), 0, "#"));
+        createItemSet(closureList.get(0));
+        for (int i = 0; i < closureList.size(); i++) {
+            List<Item> itemList = closureList.get(i);
             for (String symbol : symbolOfGrammar) {
                 List<Integer> itemToGo = goJudge(itemList, symbol);
                 if (itemToGo.size() == 0) {
@@ -38,12 +36,12 @@ public class Closure {
                 for (int index : itemToGo)
                     newItemSet.add(itemList.get(index).createNext());
                 createItemSet(newItemSet);
-                closure.add(newItemSet);
-                go.add(new Go(symbol, i, closure.size() - 1));
+                closureList.add(newItemSet);
+                go.add(new Go(symbol, i, closureList.size() - 1));
             }
-            simplify(closure);
+            simplify(closureList);
         }
-        System.out.println(closure);
+        System.out.println(closureList);
     }
 
     private void createItemSet(List<Item> initSet) {
@@ -68,7 +66,6 @@ public class Closure {
                 String beta = item.item_right.charAt(item.index + 1) + "";
                 if (separator.allVt.contains(beta)) {
                     vtSet.add(beta);
-                    continue;
                 } else {
                     int j = separator.allVn.indexOf(symbol);
                     if (firstSet.get(j).contains("ε")) {
@@ -81,7 +78,11 @@ public class Closure {
 
             int indexOfVn = grammars.vn.indexOf(symbol);
             for (String infer : grammars.vn_infer.get(indexOfVn)) {
-                initSet.add(new Item(grammars.vn.get(indexOfVn), infer, 0, vtSet));
+                Item newItem = new Item(grammars.vn.get(indexOfVn), infer, 0, vtSet);
+                boolean exsitInSet = false;
+                for(Item i :initSet)
+                    if(i.itemEquals(newItem))exsitInSet =true;
+                if(!exsitInSet) initSet.add(newItem);
             }
 
             current++;
@@ -96,24 +97,35 @@ public class Closure {
         return itemToGo;
     }
 
-    private void simplify(List<List<Item>> closure) {
-        for (int i = 0; i < closure.size(); i++) {
-            for (int j = i + 1; j < closure.size(); j++) {
-                if (isSame(closure.get(i), closure.get(j)))
-                    closure.remove(j);
+    private void simplify(List<List<Item>> closureList) {
+        List<List<Item>> original = new ArrayList<>(closureList);
+        for (int i = 0; i < closureList.size(); i++) {
+            for (int j = i + 1; j < closureList.size(); j++) {
+                if (isSame(closureList.get(i), closureList.get(j))) {
+                    int k =original.indexOf(closureList.get(j));
+                    closureList.remove(j);
+                    correctGo(i, k);
+                }
             }
         }
     }
 
+    private void correctGo(int i, int j) {
+        for (Go eachGo : go) {
+            if (eachGo.to == j)
+                eachGo.to = i;
+        }
+    }
+
     private boolean isSame(List<Item> list1, List<Item> list2) {
-        int count=0;
+        int count = 0;
         for (Item item1 : list1) {
             boolean exist = false;
             for (Item item2 : list2) {
                 if (item1.itemEquals(item2)) exist = true;
             }
-            if(exist) count++;
+            if (exist) count++;
         }
-        return count==list1.size();
+        return count == list1.size();
     }
 }
