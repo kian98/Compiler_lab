@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import Storage.PTableColumn?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
-<?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.ColumnConstraints?>
@@ -12,99 +12,131 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<GridPane fx:id="gp" alignment="center" hgap="10" prefHeight="851.0" prefWidth="1251.0" vgap="10" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.Controller">
+<GridPane fx:id="gp" alignment="center" hgap="10" prefHeight="851.0" prefWidth="1251.0" vgap="10"
+          xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="GUI.Controller">
     <columnConstraints>
-        <ColumnConstraints hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" minWidth="190.0" prefWidth="225.0" />
-        <ColumnConstraints hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" minWidth="360.0" prefWidth="536.0" />
-        <ColumnConstraints hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" minWidth="300.0" prefWidth="471.0" />
+        <ColumnConstraints hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" minWidth="190.0" prefWidth="225.0"/>
+        <ColumnConstraints hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" minWidth="360.0" prefWidth="536.0"/>
+        <ColumnConstraints hgrow="SOMETIMES" maxWidth="1.7976931348623157E308" minWidth="300.0" prefWidth="471.0"/>
     </columnConstraints>
     <rowConstraints>
-        <RowConstraints maxHeight="70.0" minHeight="35.0" prefHeight="38.0" vgrow="NEVER" />
-        <RowConstraints maxHeight="414.0" minHeight="10.0" prefHeight="235.0" vgrow="SOMETIMES" />
-        <RowConstraints maxHeight="60.0" minHeight="0.0" prefHeight="35.0" vgrow="NEVER" />
-        <RowConstraints maxHeight="598.0" minHeight="10.0" prefHeight="517.0" vgrow="SOMETIMES" />
+        <RowConstraints maxHeight="70.0" minHeight="35.0" prefHeight="38.0" vgrow="NEVER"/>
+        <RowConstraints maxHeight="414.0" minHeight="10.0" prefHeight="235.0" vgrow="SOMETIMES"/>
+        <RowConstraints maxHeight="60.0" minHeight="0.0" prefHeight="35.0" vgrow="NEVER"/>
+        <RowConstraints maxHeight="598.0" minHeight="10.0" prefHeight="517.0" vgrow="SOMETIMES"/>
     </rowConstraints>
     <children>
-        <Label text="文法：" GridPane.valignment="CENTER">
+        <Label text="文法：" textFill="#2e2e2e" GridPane.valignment="CENTER">
             <GridPane.margin>
-                <Insets left="8.0" />
+                <Insets left="8.0"/>
             </GridPane.margin>
+            <font>
+                <Font name="Microsoft YaHei Bold" size="20.0"/>
+            </font>
         </Label>
-        <Button mnemonicParsing="false" onAction="#loadGrammar" prefWidth="80.0" text="打开" GridPane.halignment="RIGHT" GridPane.valignment="CENTER">
+        <Button mnemonicParsing="false" onAction="#loadGrammar" prefWidth="80.0" text="打开" GridPane.halignment="RIGHT"
+                GridPane.valignment="CENTER">
             <GridPane.margin>
-                <Insets right="8.0" top="5.0" />
+                <Insets right="8.0" top="5.0"/>
             </GridPane.margin>
         </Button>
-        <Button mnemonicParsing="false" onAction="#getParseTable" prefWidth="80.0" text="生成" GridPane.columnIndex="1" GridPane.halignment="RIGHT" GridPane.valignment="CENTER">
+        <Button mnemonicParsing="false" onAction="#getParseTable" prefWidth="80.0" text="生成" GridPane.columnIndex="1"
+                GridPane.halignment="RIGHT" GridPane.valignment="CENTER">
             <GridPane.margin>
-                <Insets right="8.0" />
+                <Insets right="8.0"/>
             </GridPane.margin>
         </Button>
-        <Label text="拓广文法：" GridPane.rowIndex="2" GridPane.valignment="CENTER">
+        <Label text="拓广文法：" textFill="#2e2e2e" GridPane.rowIndex="2" GridPane.valignment="CENTER">
             <GridPane.margin>
-                <Insets left="8.0" />
+                <Insets left="8.0"/>
             </GridPane.margin>
+            <font>
+                <Font name="Microsoft YaHei Bold" size="20.0"/>
+            </font>
         </Label>
-        <Button mnemonicParsing="false" prefHeight="30.0" prefWidth="80.0" text="开始" GridPane.columnIndex="2" GridPane.halignment="RIGHT" GridPane.valignment="CENTER">
+        <Button mnemonicParsing="false" onAction="#startParse" prefHeight="30.0" prefWidth="80.0" text="开始"
+                GridPane.columnIndex="2" GridPane.halignment="RIGHT" GridPane.valignment="CENTER">
             <GridPane.margin>
-                <Insets right="8.0" top="5.0" />
+                <Insets right="8.0" top="5.0"/>
             </GridPane.margin>
         </Button>
-        <Label text="分析：" GridPane.columnIndex="2" GridPane.valignment="CENTER">
+        <Label text="分析：" textFill="#2e2e2e" GridPane.columnIndex="2" GridPane.valignment="CENTER">
             <GridPane.margin>
-                <Insets left="8.0" />
+                <Insets left="8.0"/>
             </GridPane.margin>
+            <font>
+                <Font name="Microsoft YaHei Bold" size="20.0"/>
+            </font>
         </Label>
-        <TableView fx:id="AnalyzeTable" focusTraversable="false" prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="1" GridPane.rowSpan="3">
+        <TableView fx:id="ParseProcess" focusTraversable="false" prefHeight="200.0" prefWidth="200.0"
+                   GridPane.columnIndex="2" GridPane.rowIndex="1" GridPane.rowSpan="3">
             <columns>
-                <TableColumn fx:id="stepNum" prefWidth="41.0" text="步骤" />
-                <TableColumn fx:id="status" prefWidth="83.0" text="状态栈" />
-                <TableColumn fx:id="symbols" prefWidth="105.0" text="符号栈" />
-            <TableColumn fx:id="input" prefWidth="107.0" text="输入串" />
-                <TableColumn fx:id="action" prefWidth="128.0" text="动作说明" />
+                <PTableColumn fx:id="step" editable="false" percentageWidth="0.08" prefWidth="41.0" resizable="false"
+                              sortable="false" text="步骤"/>
+                <PTableColumn fx:id="status" editable="false" percentageWidth="0.18" prefWidth="83.0" resizable="false"
+                              sortable="false" text="状态栈"/>
+                <PTableColumn fx:id="symbols" editable="false" percentageWidth="0.16" prefWidth="105.0"
+                              resizable="false" sortable="false" text="符号栈"/>
+                <PTableColumn fx:id="remain" editable="false" percentageWidth="0.16" prefWidth="107.0" resizable="false"
+                              sortable="false" text="输入串"/>
+                <PTableColumn fx:id="action" editable="false" percentageWidth="0.42" prefWidth="128.0" resizable="false"
+                              sortable="false" text="动作说明"/>
             </columns>
             <GridPane.margin>
-                <Insets bottom="5.0" right="5.0" />
+                <Insets bottom="5.0" right="5.0"/>
             </GridPane.margin>
         </TableView>
-        <ListView fx:id="rawGrammar" prefHeight="227.0" prefWidth="219.0" GridPane.rowIndex="1">
+        <ListView fx:id="rawGrammar" focusTraversable="false" prefHeight="227.0" prefWidth="219.0"
+                  GridPane.rowIndex="1">
             <GridPane.margin>
-                <Insets left="5.0" />
+                <Insets left="5.0"/>
             </GridPane.margin>
-         <opaqueInsets>
-            <Insets />
-         </opaqueInsets>
+            <opaqueInsets>
+                <Insets/>
+            </opaqueInsets>
         </ListView>
-        <ListView fx:id="extendedGrammarList" prefHeight="200.0" prefWidth="200.0" GridPane.rowIndex="3">
+        <ListView fx:id="extendedGrammarList" focusTraversable="false" prefHeight="200.0" prefWidth="200.0"
+                  GridPane.rowIndex="3">
             <GridPane.margin>
-                <Insets bottom="5.0" left="5.0" />
+                <Insets bottom="5.0" left="5.0"/>
             </GridPane.margin>
-         <opaqueInsets>
-            <Insets bottom="5.0" left="5.0" />
-         </opaqueInsets>
+            <opaqueInsets>
+                <Insets bottom="5.0" left="5.0"/>
+            </opaqueInsets>
         </ListView>
-      <Label text="规范LR分析表：" GridPane.columnIndex="1">
-         <GridPane.margin>
-            <Insets left="8.0" />
-         </GridPane.margin>
-      </Label>
-      <TextField alignment="CENTER" maxWidth="-Infinity" prefHeight="30.0" prefWidth="274.0" promptText="输入待分析符号串" GridPane.columnIndex="2" GridPane.halignment="CENTER">
-         <GridPane.margin>
-            <Insets top="5.0" />
-         </GridPane.margin>
-      </TextField>
-      <VBox fx:id="WholeTable" prefHeight="200.0" prefWidth="100.0" style="-fx-border-width: 0; -fx-border-color: #C8C8C8C8;" GridPane.columnIndex="1" GridPane.rowIndex="1" GridPane.rowSpan="3">
-         <children>
-            <HBox fx:id="TableTitle" prefHeight="39.0" prefWidth="503.0" style="-fx-background-color: #ffffff; -fx-border-width: 1; -fx-border-color: #C8C8C8;" VBox.vgrow="NEVER" />
-            <HBox fx:id="TableContent" prefHeight="750.0" prefWidth="503.0" style="-fx-background-color: #FFFFFF; -fx-border-color: #c8c8c8; -fx-border-width: 1;" VBox.vgrow="ALWAYS" />
-         </children>
-         <opaqueInsets>
-            <Insets bottom="5.0" />
-         </opaqueInsets>
-         <GridPane.margin>
-            <Insets bottom="5.0" />
-         </GridPane.margin>
-      </VBox>
+        <Label text="规范LR分析表：" textFill="#2e2e2e" GridPane.columnIndex="1">
+            <GridPane.margin>
+                <Insets left="8.0"/>
+            </GridPane.margin>
+            <font>
+                <Font name="Microsoft YaHei Bold" size="20.0"/>
+            </font>
+        </Label>
+        <TextField fx:id="text" alignment="CENTER" maxWidth="-Infinity" prefHeight="30.0" prefWidth="274.0"
+                   promptText="输入待分析符号串" GridPane.columnIndex="2" GridPane.halignment="CENTER">
+            <GridPane.margin>
+                <Insets top="5.0"/>
+            </GridPane.margin>
+        </TextField>
+        <VBox fx:id="WholeTable" prefHeight="200.0" prefWidth="100.0"
+              style="-fx-border-width: 0; -fx-border-color: #C8C8C8C8;" GridPane.columnIndex="1" GridPane.rowIndex="1"
+              GridPane.rowSpan="3">
+            <children>
+                <HBox fx:id="TableTitle" prefHeight="39.0" prefWidth="503.0"
+                      style="-fx-background-color: #ffffff; -fx-border-width: 1; -fx-border-color: #C8C8C8;"
+                      VBox.vgrow="NEVER"/>
+                <HBox fx:id="TableContent" prefHeight="750.0" prefWidth="503.0"
+                      style="-fx-background-color: #FFFFFF; -fx-border-color: #c8c8c8; -fx-border-width: 1;"
+                      VBox.vgrow="ALWAYS"/>
+            </children>
+            <opaqueInsets>
+                <Insets bottom="5.0"/>
+            </opaqueInsets>
+            <GridPane.margin>
+                <Insets bottom="5.0"/>
+            </GridPane.margin>
+        </VBox>
     </children>
 </GridPane>

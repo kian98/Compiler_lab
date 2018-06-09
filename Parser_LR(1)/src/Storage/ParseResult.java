@@ -10,27 +10,31 @@ public class ParseResult {
     private final SimpleStringProperty remain;
     private final SimpleStringProperty movement;
 
-    public ParseResult(int step, String status, String symbols, String remain, String movement){
+    public ParseResult(int step, String status, String symbols, String remain, String movement) {
         this.step = new SimpleIntegerProperty(step);
-        this.status =new SimpleStringProperty(status);
+        this.status = new SimpleStringProperty(status);
         this.symbols = new SimpleStringProperty(symbols);
         this.remain = new SimpleStringProperty(remain);
         this.movement = new SimpleStringProperty(movement);
     }
 
-    public int getStep(){
+    public int getStep() {
         return step.get();
     }
-    public String getSymbols(){
+
+    public String getSymbols() {
         return symbols.get();
     }
-    public String getRemain(){
+
+    public String getRemain() {
         return remain.get();
     }
-    public String getStatus(){
+
+    public String getStatus() {
         return status.get();
     }
-    public String getMovement(){
+
+    public String getMovement() {
         return movement.get();
     }
 }

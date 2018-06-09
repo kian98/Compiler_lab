@@ -1,3 +1,7 @@
+/*
+整体思路参照手工解题过程:首先将根据输入文法求出初始项目,进而求得项目集规范族,产生闭包与GO函数
+依此再求出分析表,获得各个状态的ACTION和GOTO,最后进行分析.
+*/
 package GUI;
 
 import javafx.application.Application;
